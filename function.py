@@ -30,11 +30,27 @@ def for_teacher():
 
 
 def decypher(inputting_text):
+    """Разделяет текст на отдельные элементы
+    'date': date,
+        'replacing_teacher' - учитель которого заменяют,
+        'teacher' - заменяющий учитель,
+        'index_class' - номер и буква класса,
+        'index_subject' - предмет урока,
+        'hours' - часы,
+    """
     x = inputting_text.split(', ')
     date = x[0]
     replacing_teacher = x[1][3:]
     teacher = x[2]
-    index_class = x[3]
-    index_subject = x[4]
-    hours = x[5]
-    return date, replacing_teacher, teacher, index_class, index_subject, hours
+    index_class = x[3][:1]
+    index_subject = x[4][:1]
+    hours = x[5][:1]
+    y = {
+        'date': date,
+        'replacing_teacher': replacing_teacher,
+        'teacher': teacher,
+        'index_class': index_class,
+        'index_subject': index_subject,
+        'hours': hours,
+    }
+    return y
