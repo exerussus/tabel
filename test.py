@@ -1,7 +1,7 @@
 from function import *
 
 
-print(title())
-print(' ')
-print(for_teacher())
-print(making_replace(decypher('31.01, за ярцеву, афонина, 6в, 2ур, 1ч')))
+#
+# print(making_replace(decypher('31.01, за ярцева, моисеева, 6в, 3ур, 1ч')))
+
+print(do_title('31.01'))

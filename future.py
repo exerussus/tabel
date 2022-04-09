@@ -45,6 +45,3 @@ def filter_class(inputting_class):
         x[1] = 'Г'
     return ''.join(x)
 
-inputting_class = 'kaa7ad75a'
-
-print(filter_class(inputting_class))

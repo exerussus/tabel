@@ -1,14 +1,23 @@
 import datetime as dt
 import time
 from data import *
+from future import filter_class
 
 
-def title():
+def do_title(n):
     """Создаёт титл на день"""
-    now = dt.datetime.now()
-    date = str(now.day) + '.' + str(now.month)
-    day_of_the_week = days['2'][time.strftime('%w')]
+    # if n == 0:
+    #     now = dt.datetime.now()
+    #     date = str(now.day) + '.' + str(now.month)
+    #     day_of_the_week = days['родительный'][time.strftime('%w')]
+    # else:
+    #     date = n
+    #     day_of_the_week = days['родительный'][time.strftime('%w')]
 
+    splited_date = n.split('.')
+    now = dt.strftime(2022, int(splited_date[1]), int(splited_date[0]))
+    date = str(now.day) + '.' + str(now.month)
+    day_of_the_week = days['родительный'][time.strftime('%w')]
     date = date.split('.')
     if int(date[0]) < 10:
         date[0] = '0' + date[0]
@@ -19,9 +28,9 @@ def title():
     return f'Замена на {day_of_the_week} ({date})'
 
 
-def for_teacher():
+def for_teacher(y):
     """За кого замена"""
-    teacher = 'моисеева'
+    teacher = y
     x = 'За ' + data_teachers[teacher]['родительный'] + ':'
     return x
 
@@ -42,7 +51,7 @@ def decypher(inputting_text):
     date = x[0]
     replacing_teacher = x[1][3:]
     teacher = x[2]
-    index_class = x[3][:1]
+    index_class = filter_class(x[3])
     index_subject = x[4][:1]
     hours = x[5][:1]
     y = {
@@ -59,7 +68,10 @@ def decypher(inputting_text):
 def making_replace(y):
     """Создает словарь с заменами"""
     x = y  # decypher('31.01, за ярцеву, афонина, 6в, 2ур, 1ч')
-    join = x['index_subject'] + ')', x['index_class'], x['teacher']
+    do_title('31.01')
+    text = for_teacher(x['replacing_teacher'])
+    join = x['index_subject'] + ')', x['index_class'], data_teachers[x['teacher']]['именительный']
     join = ' '.join(join)
     data_replace[x['index_subject']] = join
+    print(text)
     return data_replace[x['index_subject']]
