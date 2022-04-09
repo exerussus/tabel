@@ -35,7 +35,7 @@ def decypher(inputting_text):
         'replacing_teacher' - учитель которого заменяют,
         'teacher' - заменяющий учитель,
         'index_class' - номер и буква класса,
-        'index_subject' - предмет урока,
+        'index_subject' - номер урока,
         'hours' - часы,
     """
     x = inputting_text.split(', ')
@@ -54,3 +54,12 @@ def decypher(inputting_text):
         'hours': hours,
     }
     return y
+
+
+def making_replace(y):
+    """Создает словарь с заменами"""
+    x = y  # decypher('31.01, за ярцеву, афонина, 6в, 2ур, 1ч')
+    join = x['index_subject'] + ')', x['index_class'], x['teacher']
+    join = ' '.join(join)
+    data_replace[x['index_subject']] = join
+    return data_replace[x['index_subject']]
