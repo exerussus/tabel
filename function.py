@@ -13,19 +13,19 @@ def do_title(n):
     # else:
     #     date = n
     #     day_of_the_week = days['родительный'][time.strftime('%w')]
+    m = n.split('.')
+    day = m[0]
+    month = m[1]
+    if day[0] == '0':
+       day = day[1:]
+    if month[1] == '0':
+       month = month[1:]
+    day = int(day)
+    month = int(month)
+    title_day = dt.datetime(2022, month, day)
+    day_of_week = days['родительный'][title_day.strftime('%w')]
 
-    splited_date = n.split('.')
-    now = dt.strftime(2022, int(splited_date[1]), int(splited_date[0]))
-    date = str(now.day) + '.' + str(now.month)
-    day_of_the_week = days['родительный'][time.strftime('%w')]
-    date = date.split('.')
-    if int(date[0]) < 10:
-        date[0] = '0' + date[0]
-    if int(date[1]) < 10:
-        date[1] = '0' + date[1]
-
-    date = '.'.join(date)
-    return f'Замена на {day_of_the_week} ({date})'
+    return f'Замена на {day_of_week} ({n})'
 
 
 def for_teacher(y):
