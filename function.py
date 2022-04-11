@@ -6,13 +6,9 @@ from future import filter_class
 
 def do_title(n):
     """Создаёт титл на день"""
-    # if n == 0:
-    #     now = dt.datetime.now()
-    #     date = str(now.day) + '.' + str(now.month)
-    #     day_of_the_week = days['родительный'][time.strftime('%w')]
-    # else:
-    #     date = n
-    #     day_of_the_week = days['родительный'][time.strftime('%w')]
+
+    now = dt.datetime.now()
+    year_now = now.year
     m = n.split('.')
     day = m[0]
     month = m[1]
@@ -22,7 +18,7 @@ def do_title(n):
        month = month[1:]
     day = int(day)
     month = int(month)
-    title_day = dt.datetime(2022, month, day)
+    title_day = dt.datetime(year_now, month, day)
     day_of_week = days['родительный'][title_day.strftime('%w')]
 
     return f'Замена на {day_of_week} ({n})'
