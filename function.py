@@ -1,7 +1,6 @@
 import datetime as dt
 import time
 from data import *
-from future import filter_class
 import random
 
 
@@ -26,7 +25,7 @@ class Timetable:
         date = x[0]
         replacing_teacher = x[1][3:]
         teacher = x[2]
-        index_class = filter_class(x[3])
+        index_class = x[3]
         index_subject = x[4][:1]
         hours = x[5][:1]
         y = {
