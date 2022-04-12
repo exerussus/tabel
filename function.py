@@ -78,19 +78,32 @@ class Timetable:
         x = self.decypher()
         date = input('Дата: ')
         try:
-            index_subject = x['index_subject']
-            first = self.do_title(date)
-            second = data_replace[date]['for_teacher']
-            third = data_replace[date][index_subject]
-            print(first)
-            print(second)
-            print(third)
+            try:
+                index_subject = x['index_subject']
+                first = self.do_title(date)
+                second = data_replace[date]['for_teacher']
+                third = data_replace[date][index_subject]
+                print(first)
+                print(second)
+                print(third)
+            except IndexError:
+                two = date[3:]
+                one = date[:2]
+                date = one + '.' + two
+                index_subject = x['index_subject']
+                first = self.do_title(date)
+                second = data_replace[date]['for_teacher']
+                third = data_replace[date][index_subject]
+                print(first)
+                print(second)
+                print(third)
         except KeyError:
             try:
                 two = date[3:]
                 one = date[:2]
                 date = one + '.' + two
                 index_subject = x['index_subject']
+                print(date)
                 first = self.do_title(date)
                 second = data_replace[date]['for_teacher']
                 third = data_replace[date][index_subject]
