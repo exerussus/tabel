@@ -2,6 +2,7 @@ import datetime as dt
 import time
 from data import *
 from future import filter_class
+import random
 
 
 class Timetable:
@@ -116,3 +117,27 @@ class Timetable:
     def do(self):
         self.making_replace()
         self.print_for_teachers()
+
+
+def main_menu():
+    truth = random.choice(data_truth)
+    print(f'Лизонька, {truth}')
+    while True:
+        choice = input('   Выберите действие:\n'
+                       '1. Добавить изменения\n'
+                       '2. Вывести расписание\n'
+                       '0. Выход\n'
+                       'Ваш выбор: ')
+
+        if choice == '1':
+            text = input('Введите текст типа "31.01, за ярцева, моисеева, 6в, 3ур, 1ч":')
+            n = Timetable(text)
+            n.making_replace()
+        if choice == '2':
+            # n = Timetable("31.01, за ярцева, моисеева, 6в, 3ур, 1ч")
+            # n.print_for_teachers()
+            pass
+        if choice == '0':
+            print('Спасибо, что воспользовались программой Tabel и облегчили себе жизнь!')
+            input()
+            exit(0)
