@@ -38,9 +38,9 @@ class Timetable:
         }
         return y
 
-    def do_title(self):
+    def do_title(self, inputting_date):
         """Создаёт титл на день"""
-        n = self.decypher()['date']
+        n = inputting_date
         now = dt.datetime.now()
         year_now = now.year
         m = n.split('.')
@@ -65,16 +65,41 @@ class Timetable:
     def making_replace(self):
         """Создает словарь с заменами"""
         x = self.decypher()
-        self.do_title()
-
-        join = x['index_subject'] + ')', x['index_class'], data_teachers[x['teacher']]['именительный']
+        date = x['date']
+        index_subject = x['index_subject']
+        index_class = x['index_class']
+        teacher = x['teacher']
+        join = index_subject + ')', index_class, data_teachers[teacher]['именительный']
         join = ' '.join(join)
+        data_replace[date] = {'for_teacher': self.for_teacher(), index_subject: join}
+        return data_replace[date][index_subject]
 
-        data_replace[x['date']] = x['index_subject']
+    def print_for_teachers(self):
+        x = self.decypher()
+        date = input('Дата: ')
+        try:
+            index_subject = x['index_subject']
+            first = self.do_title(date)
+            second = data_replace[date]['for_teacher']
+            third = data_replace[date][index_subject]
+            print(first)
+            print(second)
+            print(third)
+        except KeyError:
+            try:
+                two = date[3:]
+                one = date[:2]
+                date = one + '.' + two
+                index_subject = x['index_subject']
+                first = self.do_title(date)
+                second = data_replace[date]['for_teacher']
+                third = data_replace[date][index_subject]
+                print(first)
+                print(second)
+                print(third)
+            except KeyError:
+                print('Нет замен на данную дату.')
 
-        data_replace[x['date']]['for_teacher'] = self.for_teacher()
-        data_replace[x['date']][x['index_subject']] = join
-        return data_replace['date']['index_subject']
-
-    def print(self):
-        pass
+    def do(self):
+        self.making_replace()
+        self.print_for_teachers()
