@@ -138,19 +138,31 @@ def main_menu():
                 if text == '0':
                     break
                 else:
-                    n = Timetable(text)
-                    n.making_replace()
-
+                    try:
+                        n = Timetable(text)
+                        n.making_replace()
+                    except IndexError:
+                        print("Введена некорректная информация...")
         if choice == '2':
             date = input('Введите дату: ')
-            print(do_title(date))
-            for a, b in data_replace[date].items():
-                print(a)
-                for i in b:
-                    if b[i] != '':
-                        print(b[i])
-                print('')
 
+            try:
+                month = date[3:]
+                day = date[:2]
+                int(month)
+                int(day)
+                print(do_title(date))
+                try:
+                    for a, b in data_replace[date].items():
+                        print(a)
+                        for i in b:
+                            if b[i] != '':
+                                print(b[i])
+                        print('')
+                except KeyError:
+                    print('Нет изменений на данную дату.')
+            except ValueError:
+                print('Неверно введена дата...')
         if choice == '0':
             print('Спасибо, что воспользовались программой Tabel и облегчили себе жизнь!')
             input()
