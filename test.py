@@ -20,16 +20,16 @@ title.font.name = 'Times New Roman'
 title.font.size = Pt(14)
 
 # добавляем таблицу 3x3
-table = doc.add_table(rows = 3, cols = 3)
+table = doc.add_table(rows = 2, cols = 7)
 # применяем стиль для таблицы
 table.style = 'Table Grid'
 
-# заполняем таблицу данными
-for row in range(3):
-    for col in range(3):
-        # получаем ячейку таблицы
-        cell = table.cell(row, col)
-        # записываем в ячейку данные
-        cell.text = str(row + 1) + str(col + 1)
+# # заполняем таблицу данными
+# for row in range(2):
+#     for col in range(2):
+#         # получаем ячейку таблицы
+#         cell = table.cell(row, col)
+#         # записываем в ячейку данные
+#         cell.text = str(row + 1) + str(col + 1)
 
 doc.save('example.docx')
