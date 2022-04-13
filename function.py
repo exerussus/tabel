@@ -122,8 +122,8 @@ class Timetable:
 
 
 def main_menu():
-    truth = random.choice(data_truth)
-    print(f'Лизонька, {truth}')
+    # truth = random.choice(data_truth)
+    # print(f'Лизонька, {truth}')
     while True:
         choice = input('   Выберите действие:\n'
                        '1. Добавить изменения\n'
@@ -132,16 +132,24 @@ def main_menu():
                        'Ваш выбор: ')
 
         if choice == '1':
-            text = input('Введите текст типа "31.01, за ярцева, моисеева, 6в, 3ур, 1ч":')
-            n = Timetable(text)
-            n.making_replace()
+            while True:
+                print('Для выхода нажмите 0.')
+                text = input('Введите текст типа "31.01, за ярцева, моисеева, 6в, 3ур, 1ч":')
+                if text == '0':
+                    break
+                else:
+                    n = Timetable(text)
+                    n.making_replace()
+
         if choice == '2':
             date = input('Введите дату: ')
             print(do_title(date))
             for a, b in data_replace[date].items():
                 print(a)
                 for i in b:
-                    print(b[i])
+                    if b[i] != '':
+                        print(b[i])
+                print('')
 
         if choice == '0':
             print('Спасибо, что воспользовались программой Tabel и облегчили себе жизнь!')
