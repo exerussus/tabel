@@ -81,45 +81,6 @@ class Timetable:
                 data_replace[date] = {self.for_teacher(): {'1': '', '2': '', '3': '', '4': '', '5': ''}}
                 data_replace[date][self.for_teacher()][index_subject] = join
 
-    # def print_for_teachers(self):
-    #     x = self.decypher()
-    #     date = input('Дата: ')
-    #     try:
-    #         try:
-    #             index_subject = x['index_subject']
-    #             first = do_title(date)
-    #             second = data_replace[date]['for_teacher']
-    #             third = data_replace[date][index_subject]
-    #             print(first)
-    #             print(second)
-    #             print(third)
-    #         except IndexError:
-    #             two = date[3:]
-    #             one = date[:2]
-    #             date = one + '.' + two
-    #             index_subject = x['index_subject']
-    #             first = do_title(date)
-    #             second = data_replace[date]['for_teacher']
-    #             third = data_replace[date][index_subject]
-    #             print(first)
-    #             print(second)
-    #             print(third)
-    #     except KeyError:
-    #         try:
-    #             two = date[3:]
-    #             one = date[:2]
-    #             date = one + '.' + two
-    #             index_subject = x['index_subject']
-    #             print(date)
-    #             first = do_title(date)
-    #             second = data_replace[date]['for_teacher']
-    #             third = data_replace[date][index_subject]
-    #             print(first)
-    #             print(second)
-    #             print(third)
-    #         except KeyError:
-    #             print('Нет замен на данную дату.')
-
 
 def main_menu():
     # truth = random.choice(data_truth)
