@@ -143,7 +143,7 @@ def main_menu():
                         n.making_replace()
                     except IndexError:
                         print("Введена некорректная информация...")
-        if choice == '2':
+        elif choice == '2':
             date = input('Введите дату: ')
 
             try:
@@ -163,7 +163,9 @@ def main_menu():
                     print('Нет изменений на данную дату.')
             except ValueError:
                 print('Неверно введена дата...')
-        if choice == '0':
+        elif choice == '0':
             print('Спасибо, что воспользовались программой Tabel и облегчили себе жизнь!')
             input()
             exit(0)
+        else:
+            print("Выберите действие из списка...")
