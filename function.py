@@ -78,7 +78,8 @@ class Timetable:
             try:
                 data_replace[date][self.for_teacher()] = {index_subject: join}
             except KeyError:
-                data_replace[date] = {self.for_teacher(): {index_subject: join}}
+                data_replace[date] = {self.for_teacher(): {'1': '', '2': '', '3': '', '4': '', '5': ''}}
+                data_replace[date][self.for_teacher()][index_subject] = join
 
     # def print_for_teachers(self):
     #     x = self.decypher()
@@ -137,7 +138,10 @@ def main_menu():
         if choice == '2':
             date = input('Введите дату: ')
             print(do_title(date))
-            # for i in data_replace[date]:
+            for a, b in data_replace[date].items():
+                print(a)
+                for i in b:
+                    print(b[i])
 
         if choice == '0':
             print('Спасибо, что воспользовались программой Tabel и облегчили себе жизнь!')
