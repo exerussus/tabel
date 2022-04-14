@@ -141,7 +141,7 @@ def print_tabel():
     title.font.size = Pt(14)  # Изменение размера текста
 
     # добавляем таблицу 3x3
-    table = doc.add_table(rows = 2, cols = 7)  # rows - строки, cols - столбцы
+    table = doc.add_table(rows=2, cols=7)  # rows - строки, cols - столбцы
     # применяем стиль для таблицы
     table.style = 'Table Grid'
 
