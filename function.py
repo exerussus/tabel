@@ -106,6 +106,21 @@ def print_timetable():
         print('Неверно введена дата...')
 
 
+def input_raplace():
+    while True:
+        print('Для выхода нажмите 0.')
+        text = input('Введите текст типа "31.01, за ярцева, моисеева, 6в, 3ур, 1ч":')
+        if text == '0':
+            break
+        else:
+            try:
+                n = Timetable(text)
+                n.making_replace()
+            except IndexError:
+                print("Введена некорректная информация...")
+
+
+
 def main_menu():
     # truth = random.choice(data_truth)
     # print(f'Лизонька, {truth}')
@@ -117,17 +132,7 @@ def main_menu():
                        'Ваш выбор: ')
 
         if choice == '1':
-            while True:
-                print('Для выхода нажмите 0.')
-                text = input('Введите текст типа "31.01, за ярцева, моисеева, 6в, 3ур, 1ч":')
-                if text == '0':
-                    break
-                else:
-                    try:
-                        n = Timetable(text)
-                        n.making_replace()
-                    except IndexError:
-                        print("Введена некорректная информация...")
+            input_raplace()
         elif choice == '2':
             print_timetable()
         elif choice == '0':
