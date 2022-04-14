@@ -152,7 +152,7 @@ def print_tabel():
             # получаем ячейку таблицы
             cell = table.cell(row, col)
             # записываем в ячейку данные
-            cell.text = str(row + data_replace[date]) + str(col + 1)
+            cell.text = str(row + data_replace[month]) + str(col + 1)
 
     doc.save('example.docx')
 
