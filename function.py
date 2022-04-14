@@ -67,20 +67,21 @@ class Timetable:
         """Создает словарь с заменами"""
         x = self.decypher()
         date = x['date']
+        split_date = date.split('.')
+        month = int(split_date[1])
         index_subject = x['index_subject']
         index_class = x['index_class']
         teacher = x['teacher']
         join = [index_subject, index_class, data_teachers[teacher]['именительный']]
 
         try:
-
-            data_replace[date][self.for_teacher()][index_subject] = join
+            data_replace[month][date][self.for_teacher()][index_subject] = join
         except KeyError:
             try:
-                data_replace[date][self.for_teacher()] = {index_subject: join}
+                data_replace[month][date][self.for_teacher()] = {index_subject: join}
             except KeyError:
-                data_replace[date] = {self.for_teacher(): {'1': '', '2': '', '3': '', '4': '', '5': ''}}
-                data_replace[date][self.for_teacher()][index_subject] = join
+                data_replace[month][date] = {self.for_teacher(): {'1': '', '2': '', '3': '', '4': '', '5': '', '6': ''}}
+                data_replace[month][date][self.for_teacher()][index_subject] = join
 
 
 def print_timetable():
@@ -89,11 +90,11 @@ def print_timetable():
     try:
         month = date[3:]
         day = date[:2]
-        int(month)
+        month = int(month)
         int(day)
         print(do_title(date))
         try:
-            for a, b in data_replace[date].items():
+            for a, b in data_replace[month][date].items():
                 print(a)
                 for i in b:
                     if b[i] != '':
@@ -119,22 +120,18 @@ def input_raplace():
             except IndexError:
                 print("Введена некорректная информация...")
 
+
 def print_tabel():
     import docx
     from docx.shared import Mm
     from docx.enum.text import WD_ALIGN_PARAGRAPH
     from docx.shared import Pt
 
-
-    month = 'февраль'
+    month = input('Введите номер месяца: ')
     year = '2022'
     doc = docx.Document()
-
-
     title = doc.add_paragraph('') # Создание абзаца
-
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER  # Выравнивание по центру
-
     title = title.add_run('Расшифровка к табелю на заработную плату\n'  # Добавление текста в абзац
               f'за {month} {year} г. (первичная) по МБОУ «Школа № 38»  г. \n'
               'Рязани\n'
@@ -149,18 +146,15 @@ def print_tabel():
     table.style = 'Table Grid'
 
     # # заполняем таблицу данными
-    # for row in range(2):
-    #     for col in range(2):
-    #         # получаем ячейку таблицы
-    #         cell = table.cell(row, col)
-    #         # записываем в ячейку данные
-    #         cell.text = str(row + 1) + str(col + 1)
+    for row in range(1):
+        x = 0
+        for col in range(7):
+            # получаем ячейку таблицы
+            cell = table.cell(row, col)
+            # записываем в ячейку данные
+            cell.text = str(row + data_replace[date]) + str(col + 1)
 
     doc.save('example.docx')
-
-
-
-
 
 
 def main_menu():
