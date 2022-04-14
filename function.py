@@ -70,8 +70,8 @@ class Timetable:
         index_subject = x['index_subject']
         index_class = x['index_class']
         teacher = x['teacher']
-        join = index_subject + ')', index_class, data_teachers[teacher]['именительный']
-        join = ' '.join(join)
+        join = [index_subject, index_class, data_teachers[teacher]['именительный']]
+
         try:
 
             data_replace[date][self.for_teacher()][index_subject] = join
@@ -81,6 +81,29 @@ class Timetable:
             except KeyError:
                 data_replace[date] = {self.for_teacher(): {'1': '', '2': '', '3': '', '4': '', '5': ''}}
                 data_replace[date][self.for_teacher()][index_subject] = join
+
+
+def print_timetable():
+    date = input('Введите дату: ')
+
+    try:
+        month = date[3:]
+        day = date[:2]
+        int(month)
+        int(day)
+        print(do_title(date))
+        try:
+            for a, b in data_replace[date].items():
+                print(a)
+                for i in b:
+                    if b[i] != '':
+                        x = b[i][0] + ') ' + b[i][1] + ' ' + b[i][2]
+                        print(x)
+                print('')
+        except KeyError:
+            print('Нет изменений на данную дату.')
+    except ValueError:
+        print('Неверно введена дата...')
 
 
 def main_menu():
@@ -106,25 +129,7 @@ def main_menu():
                     except IndexError:
                         print("Введена некорректная информация...")
         elif choice == '2':
-            date = input('Введите дату: ')
-
-            try:
-                month = date[3:]
-                day = date[:2]
-                int(month)
-                int(day)
-                print(do_title(date))
-                try:
-                    for a, b in data_replace[date].items():
-                        print(a)
-                        for i in b:
-                            if b[i] != '':
-                                print(b[i])
-                        print('')
-                except KeyError:
-                    print('Нет изменений на данную дату.')
-            except ValueError:
-                print('Неверно введена дата...')
+            print_timetable()
         elif choice == '0':
             print('Спасибо, что воспользовались программой Tabel и облегчили себе жизнь!')
             input()
