@@ -9,18 +9,20 @@ year = '2022'
 doc = docx.Document()
 
 
-title = doc.add_paragraph('')
-title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-title = title.add_run('Расшифровка к табелю на заработную плату\n'
+title = doc.add_paragraph('') # Создание абзаца
+
+title.alignment = WD_ALIGN_PARAGRAPH.CENTER  # Выравнивание по центру
+
+title = title.add_run('Расшифровка к табелю на заработную плату\n'  # Добавление текста в абзац
           f'за {month} {year} г. (первичная) по МБОУ «Школа № 38»  г. \n'
           'Рязани\n'
           'Оплатить:\n')
-title.bold = True
-title.font.name = 'Times New Roman'
-title.font.size = Pt(14)
+title.bold = True  # Изменение стиля текста на жирный
+title.font.name = 'Times New Roman'  # Изменение стиля текста на Times New Roman
+title.font.size = Pt(14)  # Изменение размера текста
 
 # добавляем таблицу 3x3
-table = doc.add_table(rows = 2, cols = 7)
+table = doc.add_table(rows = 2, cols = 7)  # rows - строки, cols - столбцы
 # применяем стиль для таблицы
 table.style = 'Table Grid'
 

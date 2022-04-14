@@ -73,6 +73,7 @@ class Timetable:
         join = index_subject + ')', index_class, data_teachers[teacher]['именительный']
         join = ' '.join(join)
         try:
+
             data_replace[date][self.for_teacher()][index_subject] = join
         except KeyError:
             try:
