@@ -4,6 +4,23 @@ from data import *
 import random
 
 
+def read_text_file(ref):
+    """Импортирует JSON в Python, и возвращает его значение.
+    Аргументы: ref - ссылка на JSON, который надо присвоить переменной."""
+    import json
+    with open(ref) as json_import_data:
+        data_file = json.load(json_import_data)
+    return data_file
+
+
+def save_text_file(ref, data_file):
+    """Сохраняет значение переменной в JSON.
+    Аргументы: ref - ссылка на JSON, data_file - переменная, значение которой сохраняется в JSON."""
+    import json
+    with open(ref, 'w') as add_info_file:
+        json.dump(data_file, add_info_file)
+
+
 def do_title(inputting_date):
     """Создаёт титл на день"""
 
