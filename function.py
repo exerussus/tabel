@@ -1,14 +1,10 @@
-import datetime as dt
-import time
-
-import random
 
 
 def json_read_text_file(ref):
     """Импортирует JSON в Python, и возвращает его значение.
     Аргументы: ref - ссылка на JSON, который надо присвоить переменной."""
     import json
-    with open(ref) as json_import_data:
+    with open('data/' + ref) as json_import_data:
         data_file = json.load(json_import_data)
     return data_file
 
@@ -17,12 +13,14 @@ def json_save_text_file(ref, data_file):
     """Сохраняет значение переменной в JSON.
     Аргументы: ref - ссылка на JSON, data_file - переменная, значение которой сохраняется в JSON."""
     import json
-    with open(ref, 'w') as add_info_file:
+    with open('data/' + ref, 'w') as add_info_file:
         json.dump(data_file, add_info_file)
 
 
 def do_title(inputting_date):
-    """Создаёт титл на день"""
+    """Создаёт титл на день
+    Аргументы: inputting_date - введённая пользователем дата (день|месяц)"""
+    import datetime as dt
     from data import days
     now = dt.datetime.now()
     year_now = now.year
@@ -82,7 +80,7 @@ class Timetable:
         return x
 
     def making_replace(self):
-        """Создает словарь с заменами"""
+        """Заполняет словарь с заменами"""
         data_teachers = json_read_text_file('data_teachers.json')
         data_replace = json_read_text_file('data_replace.json')
         x = self.decypher()
@@ -107,6 +105,7 @@ class Timetable:
 
 
 def print_timetable():
+    """Выводит таблицу с заменами"""
     from data import data_replace
     date = input('Введите дату: ')
 
@@ -130,7 +129,8 @@ def print_timetable():
         print('Неверно введена дата...')
 
 
-def input_raplace():
+def input_replace():
+    """Вводит данные в data_replace"""
     while True:
         print('Для выхода нажмите 0.')
         text = input('Введите текст типа "31.01, за ярцева, моисеева, 6в, 3ур, 1ч":')
@@ -145,6 +145,7 @@ def input_raplace():
 
 
 def print_tabel():
+    """Печатает табель рабочих часов"""
     import docx
     from docx.shared import Mm
     from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -192,7 +193,7 @@ def main_menu():
                        'Ваш выбор: ')
 
         if choice == '1':
-            input_raplace()
+            input_replace()
         elif choice == '2':
             print_timetable()
         elif choice == '0':
