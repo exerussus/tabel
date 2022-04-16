@@ -17,9 +17,12 @@ def json_save_text_file(ref, data_file):
         json.dump(data_file, add_info_file)
 
 
-def days_generation_for_month(data_base, month):
+def days_generation_for_month(data_base, month, debug=None):
     """Заполняет месяц днями. Всего будет 31 дней независимо от месяца.
     Аргументы: data_base - заполняемый словарь; month - заполняемый месяц в словаре."""
+    if debug:
+        print('На входе:')
+        print(data_base)
     str_month = str(month)
     if len(str_month) == 1:
         str_month = '0' + str_month
@@ -28,6 +31,9 @@ def days_generation_for_month(data_base, month):
         if len(i) == 1:
             i = '0' + i
         data_base[month][f'{i}.' + str_month] = ''
+    if debug:
+        print('На выходе:')
+        print(data_base)
 
 
 def do_title(inputting_date):
