@@ -4,7 +4,7 @@ import time
 import random
 
 
-def read_text_file(ref):
+def json_read_text_file(ref):
     """Импортирует JSON в Python, и возвращает его значение.
     Аргументы: ref - ссылка на JSON, который надо присвоить переменной."""
     import json
@@ -13,7 +13,7 @@ def read_text_file(ref):
     return data_file
 
 
-def save_text_file(ref, data_file):
+def json_save_text_file(ref, data_file):
     """Сохраняет значение переменной в JSON.
     Аргументы: ref - ссылка на JSON, data_file - переменная, значение которой сохраняется в JSON."""
     import json
@@ -83,8 +83,8 @@ class Timetable:
 
     def making_replace(self):
         """Создает словарь с заменами"""
-        from data import data_teachers
-        from data import data_replace
+        data_teachers = json_read_text_file('data_teachers.json')
+        data_replace = json_read_text_file('data_replace.json')
         x = self.decypher()
         date = x['date']
         split_date = date.split('.')
@@ -102,6 +102,8 @@ class Timetable:
             except KeyError:
                 data_replace[month][date] = {self.for_teacher(): {'1': '', '2': '', '3': '', '4': '', '5': '', '6': ''}}
                 data_replace[month][date][self.for_teacher()][index_subject] = join
+        json_save_text_file('data_replace.json', data_replace)
+        json_save_text_file('data_teachers.json', data_teachers)
 
 
 def print_timetable():
