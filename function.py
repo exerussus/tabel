@@ -17,6 +17,19 @@ def json_save_text_file(ref, data_file):
         json.dump(data_file, add_info_file)
 
 
+def days_generation_for_month(data_base, month):
+    """Заполняет месяц днями. Всего будет 31 дней независимо от месяца.
+    Аргументы: data_base - заполняемый словарь; month - заполняемый месяц в словаре."""
+    str_month = str(month)
+    if len(str_month) == 1:
+        str_month = '0' + str_month
+    for i in range(31):
+        i = str(i + 1)
+        if len(i) == 1:
+            i = '0' + i
+        data_base[month][f'{i}.' + str_month] = ''
+
+
 def do_title(inputting_date):
     """Создаёт титл на день
     Аргументы: inputting_date - введённая пользователем дата (день|месяц)"""
@@ -91,15 +104,17 @@ class Timetable:
         index_class = x['index_class']
         teacher = x['teacher']
         join = [index_subject, index_class, data_teachers[teacher]['именительный']]
+        for_teacher = self.for_teacher()
 
         try:
-            data_replace[month][date][self.for_teacher()][index_subject] = join
+            data_replace[month][date][for_teacher][index_subject] = join
         except KeyError:
             try:
-                data_replace[month][date][self.for_teacher()] = {index_subject: join}
+                data_replace[month][date][for_teacher] = {index_subject: join}
             except KeyError:
-                data_replace[month][date] = {self.for_teacher(): {'1': '', '2': '', '3': '', '4': '', '5': '', '6': ''}}
-                data_replace[month][date][self.for_teacher()][index_subject] = join
+                days_generation_for_month(data_replace, month)
+                data_replace[month][date] = {for_teacher: {'1': '', '2': '', '3': '', '4': '', '5': '', '6': ''}}
+                data_replace[month][date][for_teacher][index_subject] = join
         json_save_text_file('data_replace.json', data_replace)
         json_save_text_file('data_teachers.json', data_teachers)
 
@@ -202,3 +217,7 @@ def main_menu():
             exit(0)
         else:
             print("Выберите действие из списка...")
+
+
+
+
