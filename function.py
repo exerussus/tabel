@@ -1,6 +1,6 @@
 import datetime as dt
 import time
-from data import *
+
 import random
 
 
@@ -23,7 +23,7 @@ def save_text_file(ref, data_file):
 
 def do_title(inputting_date):
     """Создаёт титл на день"""
-
+    from data import days
     now = dt.datetime.now()
     year_now = now.year
     m = inputting_date.split('.')
@@ -76,12 +76,15 @@ class Timetable:
 
     def for_teacher(self):
         """За кого замена"""
+        from data import data_teachers
         teacher = self.decypher()['replacing_teacher']
         x = 'За ' + data_teachers[teacher]['родительный'] + ':'
         return x
 
     def making_replace(self):
         """Создает словарь с заменами"""
+        from data import data_teachers
+        from data import data_replace
         x = self.decypher()
         date = x['date']
         split_date = date.split('.')
@@ -102,6 +105,7 @@ class Timetable:
 
 
 def print_timetable():
+    from data import data_replace
     date = input('Введите дату: ')
 
     try:
@@ -143,6 +147,7 @@ def print_tabel():
     from docx.shared import Mm
     from docx.enum.text import WD_ALIGN_PARAGRAPH
     from docx.shared import Pt
+    from data import data_replace
 
     month = input('Введите номер месяца: ')
     year = '2022'
