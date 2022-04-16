@@ -105,7 +105,7 @@ class Timetable:
         x = self.decypher()
         date = x['date']
         split_date = date.split('.')
-        month = int(split_date[1])
+        month = split_date[1]
         index_subject = x['index_subject']
         index_class = x['index_class']
         teacher = x['teacher']
