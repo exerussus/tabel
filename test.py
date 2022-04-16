@@ -7,13 +7,23 @@ def read_text_file(ref):
     return data_file
 
 
-data = read_text_file('test_data.json')
+data_test = read_text_file('test_data.json')
 
 
-def add_text_file():
+def save_text_file(ref, data_file):
     import json
-    with open('test_data.json', 'w+') as add_info_file:
-        json.dump(data, add_info_file)
+    with open(ref, 'w') as add_info_file:
+        json.dump(data_file, add_info_file)
 
 
-print(data)
+import random
+
+print(f'При открытии {data_test}')
+random_names = ['Миша', "Коля", "Вася", 'Илья', "Влад"]
+random_specification = ['плохой', "весёлый", "красивый", "прикольный", "интересный"]
+r_n = random.choice(random_names)
+r_s = random.choice(random_specification)
+data_test[r_n] = r_s
+print(f'При закрытии {data_test}')
+save_text_file('test_data.json', data_test)
+
