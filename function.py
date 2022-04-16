@@ -155,9 +155,9 @@ def print_tabel():
     title = doc.add_paragraph('') # Создание абзаца
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER  # Выравнивание по центру
     title = title.add_run('Расшифровка к табелю на заработную плату\n'  # Добавление текста в абзац
-              f'за {month} {year} г. (первичная) по МБОУ «Школа № 38»  г. \n'
-              'Рязани\n'
-              'Оплатить:\n')
+                          f'за {month} {year} г. (первичная) по МБОУ «Школа № 38»  г. \n'
+                          'Рязани\n'
+                          'Оплатить:\n')
     title.bold = True  # Изменение стиля текста на жирный
     title.font.name = 'Times New Roman'  # Изменение стиля текста на Times New Roman
     title.font.size = Pt(14)  # Изменение размера текста
