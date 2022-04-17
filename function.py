@@ -200,7 +200,14 @@ def print_tabel():
     cell.text = '1'
     cell2 = table.cell(0, 1)
     cell2.text = 'За Ярцеву И.И.'
-
+    cell3 = table.cell(0, 2)
+    cell3.text = 'класс'
+    cell4 = table.cell(0, 3)
+    cell4.text = 'предмет'
+    cell5 = table.cell(0, 4)
+    cell5.text = 'дата'
+    cell7 = table.cell(0, 6)
+    cell7.text = 'часы'
     # # заполняем таблицу данными
     # for row in range(1):
     #     x = 0
