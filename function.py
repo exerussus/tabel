@@ -127,13 +127,13 @@ class Timetable:
 
 def print_timetable():
     """Выводит таблицу с заменами"""
-    from data import data_replace
+    data_replace = json_read_text_file('data_replace.json')
     date = input('Введите дату: ')
 
     try:
         month = date[3:]
         day = date[:2]
-        month = int(month)
+        # month = int(month)
         int(day)
         print(do_title(date))
         try:
