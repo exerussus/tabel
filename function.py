@@ -110,6 +110,7 @@ class Timetable:
         index_class = x['index_class']
         teacher = x['teacher']
         join = [index_subject, index_class, data_teachers[teacher]['именительный']]
+        """[index_subject, index_class, data_teachers[teacher]['именительный']]"""
         for_teacher = self.for_teacher()
 
         try:
