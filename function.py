@@ -4,7 +4,7 @@ def json_read_text_file(ref):
     """Импортирует JSON в Python, и возвращает его значение.
     Аргументы: ref - ссылка на JSON, который надо присвоить переменной."""
     import json
-    with open('data/' + ref) as json_import_data:
+    with open('data/' + ref + '.json') as json_import_data:
         data_file = json.load(json_import_data)
     return data_file
 
@@ -13,7 +13,7 @@ def json_save_text_file(ref, data_file):
     """Сохраняет значение переменной в JSON.
     Аргументы: ref - ссылка на JSON, data_file - переменная, значение которой сохраняется в JSON."""
     import json
-    with open('data/' + ref, 'w') as add_info_file:
+    with open('data/' + ref + '.json', 'w') as add_info_file:
         json.dump(data_file, add_info_file)
 
 
@@ -100,8 +100,8 @@ class Timetable:
 
     def making_replace(self):
         """Заполняет словарь с заменами"""
-        data_teachers = json_read_text_file('data_teachers.json')
-        data_replace = json_read_text_file('data_replace.json')
+        data_teachers = json_read_text_file('data_teachers')
+        data_replace = json_read_text_file('data_replace')
         x = self.decypher()
         date = x['date']
         split_date = date.split('.')
@@ -121,13 +121,13 @@ class Timetable:
                 days_generation_for_month(data_replace, month)
                 data_replace[month][date] = {for_teacher: {'1': '', '2': '', '3': '', '4': '', '5': '', '6': ''}}
                 data_replace[month][date][for_teacher][index_subject] = join
-        json_save_text_file('data_replace.json', data_replace)
-        json_save_text_file('data_teachers.json', data_teachers)
+        json_save_text_file('data_replace', data_replace)
+        json_save_text_file('data_teachers', data_teachers)
 
 
 def print_timetable():
     """Выводит таблицу с заменами"""
-    data_replace = json_read_text_file('data_replace.json')
+    data_replace = json_read_text_file('data_replace')
     date = input('Введите дату: ')
 
     try:
@@ -171,8 +171,8 @@ def print_tabel():
     from docx.shared import Mm
     from docx.enum.text import WD_ALIGN_PARAGRAPH
     from docx.shared import Pt
-    from data import data_replace
-
+    data_replace = json_read_text_file('data_replace')
+    data_teachers = json_read_text_file('data_teachers')
     month = input('Введите номер месяца: ')
     year = '2022'
     doc = docx.Document()
@@ -186,19 +186,29 @@ def print_tabel():
     title.font.name = 'Times New Roman'  # Изменение стиля текста на Times New Roman
     title.font.size = Pt(14)  # Изменение размера текста
 
-    # добавляем таблицу 3x3
+    title2 = doc.add_paragraph('')
+    title2.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    title2 = title2.add_run(data_teachers['моисеева']['дательный'])
+    title2.font.name = 'Times New Roman'  # Изменение стиля текста на Times New Roman
+    title2.font.size = Pt(12)  # Изменение размера текста
+
+    # добавляем таблицу
     table = doc.add_table(rows=2, cols=7)  # rows - строки, cols - столбцы
     # применяем стиль для таблицы
     table.style = 'Table Grid'
+    cell = table.cell(0, 0)
+    cell.text = '1'
+    cell2 = table.cell(0, 1)
+    cell2.text = 'За Ярцеву И.И.'
 
     # # заполняем таблицу данными
-    for row in range(1):
-        x = 0
-        for col in range(7):
-            # получаем ячейку таблицы
-            cell = table.cell(row, col)
-            # записываем в ячейку данные
-            cell.text = str(row + data_replace[month]) + str(col + 1)
+    # for row in range(1):
+    #     x = 0
+    #     for col in range(7):
+    #         # получаем ячейку таблицы
+    #         cell = table.cell(row, col)
+    #         # записываем в ячейку данные
+    #         cell.text = str(row + data_replace[month]) + str(col + 1)
 
     doc.save('example.docx')
 
@@ -210,6 +220,7 @@ def main_menu():
         choice = input('   Выберите действие:\n'
                        '1. Добавить изменения\n'
                        '2. Вывести расписание\n'
+                       '3. Вывести табель\n'
                        '0. Выход\n'
                        'Ваш выбор: ')
 
@@ -217,6 +228,8 @@ def main_menu():
             input_replace()
         elif choice == '2':
             print_timetable()
+        elif choice == '3':
+            print_tabel()
         elif choice == '0':
             print('Спасибо, что воспользовались программой Tabel и облегчили себе жизнь!')
             input()
