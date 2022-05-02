@@ -71,4 +71,15 @@ class TabelSQL:
 
     @staticmethod
     def db_replacing_creation():
-        pass
+        sql = TabelSQL.db_connect()
+        sql.execute("""CREATE TABLE IF NOT EXISTS replacing(
+        year INT PRIMARY KEY,
+        month INT,
+        day INT,
+        replacing_teacher TEXT,
+        actually_teacher TEXT, 
+        school_class TEXT,
+        lesson_number INT,
+        lesson_name        
+        );
+        """)
