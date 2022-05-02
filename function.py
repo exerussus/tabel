@@ -1,39 +1,24 @@
 
 
-def json_read_text_file(ref):
-    """Импортирует JSON в Python, и возвращает его значение.
-    Аргументы: ref - ссылка на JSON, который надо присвоить переменной."""
-    import json
-    with open('data/' + ref + '.json') as json_import_data:
-        data_file = json.load(json_import_data)
-    return data_file
 
-
-def json_save_text_file(ref, data_file):
-    """Сохраняет значение переменной в JSON.
-    Аргументы: ref - ссылка на JSON, data_file - переменная, значение которой сохраняется в JSON."""
-    import json
-    with open('data/' + ref + '.json', 'w') as add_info_file:
-        json.dump(data_file, add_info_file)
-
-
-def days_generation_for_month(data_base, month, debug=None):
-    """Заполняет месяц днями. Всего будет 31 дней независимо от месяца.
-    Аргументы: data_base - заполняемый словарь; month - заполняемый месяц в словаре."""
-    if debug:
-        print('На входе:')
-        print(data_base)
-    str_month = str(month)
-    if len(str_month) == 1:
-        str_month = '0' + str_month
-    for i in range(31):
-        i = str(i + 1)
-        if len(i) == 1:
-            i = '0' + i
-        data_base[month][f'{i}.' + str_month] = ''
-    if debug:
-        print('На выходе:')
-        print(data_base)
+#
+# def days_generation_for_month(data_base, month, debug=None):
+#     """Заполняет месяц днями. Всего будет 31 дней независимо от месяца.
+#     Аргументы: data_base - заполняемый словарь; month - заполняемый месяц в словаре."""
+#     if debug:
+#         print('На входе:')
+#         print(data_base)
+#     str_month = str(month)
+#     if len(str_month) == 1:
+#         str_month = '0' + str_month
+#     for i in range(31):
+#         i = str(i + 1)
+#         if len(i) == 1:
+#             i = '0' + i
+#         data_base[month][f'{i}.' + str_month] = ''
+#     if debug:
+#         print('На выходе:')
+#         print(data_base)
 
 
 def do_title(inputting_date):
@@ -100,8 +85,8 @@ class Timetable:
 
     def making_replace(self):
         """Заполняет словарь с заменами"""
-        data_teachers = json_read_text_file('data_teachers')
-        data_replace = json_read_text_file('data_replace')
+        data_teachers = JsonOperations.read('data_teachers')
+        data_replace = JsonOperations.read('data_replace')
         x = self.decypher()
         date = x['date']
         split_date = date.split('.')
@@ -122,19 +107,18 @@ class Timetable:
                 days_generation_for_month(data_replace, month)
                 data_replace[month][date] = {for_teacher: {'1': '', '2': '', '3': '', '4': '', '5': '', '6': ''}}
                 data_replace[month][date][for_teacher][index_subject] = join
-        json_save_text_file('data_replace', data_replace)
-        json_save_text_file('data_teachers', data_teachers)
+        JsonOperations.save('data_replace', data_replace)
+        JsonOperations.save('data_teachers', data_teachers)
 
 
 def print_timetable():
     """Выводит таблицу с заменами"""
-    data_replace = json_read_text_file('data_replace')
+    data_replace = JsonOperations.read('data_replace')
     date = input('Введите дату: ')
 
     try:
         month = date[3:]
         day = date[:2]
-        # month = int(month)
         int(day)
         print(do_title(date))
         try:
@@ -166,59 +150,62 @@ def input_replace():
                 print("Введена некорректная информация...")
 
 
-def print_tabel():
-    """Печатает табель рабочих часов"""
-    import docx
-    from docx.shared import Mm
-    from docx.enum.text import WD_ALIGN_PARAGRAPH
-    from docx.shared import Pt
-    data_replace = json_read_text_file('data_replace')
-    data_teachers = json_read_text_file('data_teachers')
-    month = input('Введите номер месяца: ')
-    year = '2022'
-    doc = docx.Document()
-    title = doc.add_paragraph('') # Создание абзаца
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER  # Выравнивание по центру
-    title = title.add_run('Расшифровка к табелю на заработную плату\n'  # Добавление текста в абзац
-                          f'за {month} {year} г. (первичная) по МБОУ «Школа № 38»  г. \n'
-                          'Рязани\n'
-                          'Оплатить:\n')
-    title.bold = True  # Изменение стиля текста на жирный
-    title.font.name = 'Times New Roman'  # Изменение стиля текста на Times New Roman
-    title.font.size = Pt(14)  # Изменение размера текста
+class WordPrinter:
 
-    title2 = doc.add_paragraph('')
-    title2.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    title2 = title2.add_run(data_teachers['моисеева']['дательный'])
-    title2.font.name = 'Times New Roman'  # Изменение стиля текста на Times New Roman
-    title2.font.size = Pt(12)  # Изменение размера текста
+    @staticmethod
+    def print_tabel():
+        """Печатает табель рабочих часов"""
+        import docx
+        from docx.shared import Mm
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.shared import Pt
+        data_replace = JsonOperations.read('data_replace')
+        data_teachers = JsonOperations.read('data_teachers')
+        month = input('Введите номер месяца: ')
+        year = '2022'
+        doc = docx.Document()
+        title = doc.add_paragraph('') # Создание абзаца
+        title.alignment = WD_ALIGN_PARAGRAPH.CENTER  # Выравнивание по центру
+        title = title.add_run('Расшифровка к табелю на заработную плату\n'  # Добавление текста в абзац
+                              f'за {month} {year} г. (первичная) по МБОУ «Школа № 38»  г. \n'
+                              'Рязани\n'
+                              'Оплатить:\n')
+        title.bold = True  # Изменение стиля текста на жирный
+        title.font.name = 'Times New Roman'  # Изменение стиля текста на Times New Roman
+        title.font.size = Pt(14)  # Изменение размера текста
 
-    # добавляем таблицу
-    table = doc.add_table(rows=2, cols=7)  # rows - строки, cols - столбцы
-    # применяем стиль для таблицы
-    table.style = 'Table Grid'
-    cell = table.cell(0, 0)
-    cell.text = '1'
-    cell2 = table.cell(0, 1)
-    cell2.text = 'За Ярцеву И.И.'
-    cell3 = table.cell(0, 2)
-    cell3.text = 'класс'
-    cell4 = table.cell(0, 3)
-    cell4.text = 'предмет'
-    cell5 = table.cell(0, 4)
-    cell5.text = 'дата'
-    cell7 = table.cell(0, 6)
-    cell7.text = 'часы'
-    # # заполняем таблицу данными
-    # for row in range(1):
-    #     x = 0
-    #     for col in range(7):
-    #         # получаем ячейку таблицы
-    #         cell = table.cell(row, col)
-    #         # записываем в ячейку данные
-    #         cell.text = str(row + data_replace[month]) + str(col + 1)
+        title2 = doc.add_paragraph('')
+        title2.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        title2 = title2.add_run(data_teachers['моисеева']['дательный'])
+        title2.font.name = 'Times New Roman'  # Изменение стиля текста на Times New Roman
+        title2.font.size = Pt(12)  # Изменение размера текста
 
-    doc.save('example.docx')
+        # добавляем таблицу
+        table = doc.add_table(rows=2, cols=7)  # rows - строки, cols - столбцы
+        # применяем стиль для таблицы
+        table.style = 'Table Grid'
+        cell = table.cell(0, 0)
+        cell.text = '1'
+        cell2 = table.cell(0, 1)
+        cell2.text = 'За Ярцеву И.И.'
+        cell3 = table.cell(0, 2)
+        cell3.text = 'класс'
+        cell4 = table.cell(0, 3)
+        cell4.text = 'предмет'
+        cell5 = table.cell(0, 4)
+        cell5.text = 'дата'
+        cell7 = table.cell(0, 6)
+        cell7.text = 'часы'
+        # # заполняем таблицу данными
+        # for row in range(1):
+        #     x = 0
+        #     for col in range(7):
+        #         # получаем ячейку таблицы
+        #         cell = table.cell(row, col)
+        #         # записываем в ячейку данные
+        #         cell.text = str(row + data_replace[month]) + str(col + 1)
+
+        doc.save('example.docx')
 
 
 def main_menu():
@@ -237,7 +224,7 @@ def main_menu():
         elif choice == '2':
             print_timetable()
         elif choice == '3':
-            print_tabel()
+            WordPrinter.print_tabel()
         elif choice == '0':
             print('Спасибо, что воспользовались программой Tabel и облегчили себе жизнь!')
             input()
