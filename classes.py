@@ -45,6 +45,19 @@ class TabelTextSpliter:
         return text.split(', ')
 
 
+class TabelFormatChanger:
+
+    @staticmethod
+    def start():
+        year = ActuallyYear.start()
+
+        pass
+        # return year, month, day, replacing_teacher, actually_teacher, school_class, lesson_number
+
+
+
+
+
 class TabelSQL:
 
     @staticmethod
@@ -57,7 +70,7 @@ class TabelSQL:
     def db_teachers_creation():
 
         sql = TabelSQL.db_connect()
-        sql.execute("""CREATE TABLE IF NOT EXISTS teachers(
+        sql.execute("""CREATE TABLE IF NOT EXISTS teacher(
         teacher_id INT PRIMARY KEY,
         first_name TEXT,
         last_name TEXT,
@@ -83,3 +96,29 @@ class TabelSQL:
         lesson_name        
         );
         """)
+
+    @staticmethod
+    def db_teacher_insert(text):
+        sql = TabelSQL.db_connect()
+        teacher = ()
+        sql.execute("""INSERT INTO teacher VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)""", teacher)
+        pass
+
+    @staticmethod
+    def time_table():
+
+        sql = TabelSQL.db_connect()
+        sql.execute("""SELECT * FROM teachers""")
+        info = sql.fetchall()
+        pass
+
+
+class ActuallyYear:
+    """Return actually year"""
+    @staticmethod
+    def start():
+        import datetime as dt
+        now = dt.datetime.now()
+        return now.year
+
+
