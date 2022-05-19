@@ -1,124 +1,56 @@
-import sqlite3
-
-
-class JsonOperations:
-
-    @staticmethod
-    def read(ref):
-        """Импортирует JSON в Python, и возвращает его значение.
-        Аргументы: ref - ссылка на JSON, который надо присвоить переменной."""
-        from json import load
-        with open('data/' + ref + '.json') as json_import_data:
-            data_file = load(json_import_data)
-        return data_file
-
-    @staticmethod
-    def save(ref, data_file):
-        """Сохраняет значение переменной в JSON.
-        Аргументы: ref - ссылка на JSON, data_file - переменная,
-        значение которой сохраняется в JSON."""
-        from json import dump
-        with open('data/' + ref + '.json', 'w') as add_info_file:
-            dump(data_file, add_info_file)
-
-
 class TabelInput:
 
-    @staticmethod
-    def start():
-
-        """
-        31.01 - date\n
-        за ярцева - replaced teacher\n
-        моисеева - actually teacher\n
-        6в - school class\n
-        3 - lesson number\n
-        """
-
-        return input("31.01, за ярцева, моисеева, 6в, 3")
+    @classmethod
+    def do(cls):
+        return input('Вставьте данные формата "":  ')
 
 
-class TabelTextSpliter:
+class TabelReader:
 
-    @staticmethod
-    def start(text):
-        return text.split(', ')
+    @classmethod
+    def do(cls, name):
+        from JsonOperations import JsonOperations
 
-
-class TabelFormatChanger:
-
-    @staticmethod
-    def start():
-        year = ActuallyYear.start()
-
-        pass
-        # return year, month, day, replacing_teacher, actually_teacher, school_class, lesson_number
+        return JsonOperations.read(name)
 
 
+class TabelSaver:
+
+    @classmethod
+    def do(cls, name, db):
+        from JsonOperations import JsonOperations
+
+        JsonOperations.save(name, db)
 
 
+class FileChecking:
 
-class TabelSQL:
-
-    @staticmethod
-    def db_connect():
-
-        db = sqlite3.connect('database.db')
-        return db.cursor()
-
-    @staticmethod
-    def db_teachers_creation():
-
-        sql = TabelSQL.db_connect()
-        sql.execute("""CREATE TABLE IF NOT EXISTS teacher(
-        teacher_id INT PRIMARY KEY,
-        first_name TEXT,
-        last_name TEXT,
-        parent_name TEXT,
-        full_name TEXT,
-        dative TEXT,
-        genitive TEXT,
-        short_native TEXT,
-        short_dative TEXT
-        );""")
-
-    @staticmethod
-    def db_replacing_creation():
-        sql = TabelSQL.db_connect()
-        sql.execute("""CREATE TABLE IF NOT EXISTS replacing(
-        year INT PRIMARY KEY,
-        month INT,
-        day INT,
-        replacing_teacher TEXT,
-        actually_teacher TEXT, 
-        school_class TEXT,
-        lesson_number INT,
-        lesson_name        
-        );
-        """)
-
-    @staticmethod
-    def db_teacher_insert(text):
-        sql = TabelSQL.db_connect()
-        teacher = ()
-        sql.execute("""INSERT INTO teacher VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)""", teacher)
-        pass
-
-    @staticmethod
-    def time_table():
-
-        sql = TabelSQL.db_connect()
-        sql.execute("""SELECT * FROM teachers""")
-        info = sql.fetchall()
-        pass
+    @classmethod
+    def do(cls, name):
+        from os.path import isdir
+        return isdir(f'data/{name}.json')
 
 
-class ActuallyYear:
-    """Return actually year"""
-    @staticmethod
-    def start():
-        import datetime as dt
-        now = dt.datetime.now()
-        return now.year
+class FileCreation:
 
+    @classmethod
+    def do(cls, name):
+        db = ''
+        TabelSaver.do(name, db)
+
+
+class CheckingAndCreation:
+
+    @classmethod
+    def do(cls, name):
+        if not FileChecking.do(name):
+            FileCreation.do(name)
+
+
+class Initialization:
+
+    @classmethod
+    def do(cls):
+        CheckingAndCreation.do('teachers')
+        CheckingAndCreation.do('date')
 
